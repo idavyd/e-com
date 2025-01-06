@@ -1,2 +1,2 @@
-web: gunicorn e-com.wsgi:application --chdir backend --log-file -
-web: python manage.py migrate && gunicorn e-com.wsgi:application
+web: gunicorn backend.wsgi:application --chdir backend --log-file -
+web: python manage.py migrate && gunicorn backend.wsgi:application
