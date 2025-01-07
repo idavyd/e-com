@@ -19,7 +19,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['e-com-develop.up.railway.app', 'localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://e-com-develop.up.railway.app', os.getenv('FRONTEND_URL')]
+CSRF_TRUSTED_ORIGINS = ['https://e-com-develop.up.railway.app', os.getenv('FRONTEND_URL'), 'http://localhost:3000']
 
 
 # Application definition
@@ -41,14 +41,14 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -129,3 +129,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000", os.getenv('FRONTEND_URL')  # Allow the frontend to make requests
 ]
+CORS_ALLOW_CREDENTIALS = True
