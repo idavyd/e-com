@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import styles from './page.module.css';
-
-export default function Home() {
+import { Users } from './components/Users';
+export default async function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -13,6 +13,7 @@ export default function Home() {
           height={38}
           priority
         />
+        <Users />
       </main>
       <footer className={styles.footer}>
         <a
