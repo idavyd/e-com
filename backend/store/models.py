@@ -1,10 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-
-
-
-class User(AbstractUser):
-    pass
 
 
 class Category(models.Model):
@@ -12,10 +6,9 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    icon = models.ImageField(upload_to='category_image/', blank=True, null=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE,
                                related_name='subcategories',
-                               null=True)
+                               null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -39,9 +32,8 @@ class Product(models.Model):
     is_on_sale = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    images = models.ImageField(upload_to='product_images')
-    stock = models.IntegerField( default=0)
-    in_stock = models.CharField(choices=models.Choices(STOCK_CHOICES))
+    stock = models.IntegerField(default=0)
+    in_stock = models.CharField(choices=STOCK_CHOICES)
 
     def __str__(self):
         return f'{self.name}'
@@ -60,8 +52,17 @@ class Product(models.Model):
             self.in_stock = 'R'
         else:
             self.in_stock = 'P'
-        self.save()
 
     def save(self, *args, **kwargs):
         self._update_in_stock_status()
         super().save(*args, **kwargs)
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    images = models.ImageField(upload_to='product_images/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Image for - {self.product}'
