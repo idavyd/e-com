@@ -6,9 +6,12 @@ from .models import *
 admin.site.unregister(Group)
 admin.site.unregister(User)
 
+
 class ProductImageInLine(admin.TabularInline):
     model = ProductImage
     extra = 1
+
+
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
@@ -29,6 +32,11 @@ class CustomUserAdmin(UserAdmin):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInLine]
     readonly_fields = ('in_stock',)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    inlines = [ProductImageInLine]
+    readonly_fields = ('created_at', 'updated_at')
 
 
 admin.site.register(User, CustomUserAdmin)

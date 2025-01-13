@@ -117,11 +117,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -133,3 +130,25 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000", os.getenv('FRONTEND_URL')  # Allow the frontend to make requests
 ]
 CORS_ALLOW_CREDENTIALS = True
+
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+
+AWS_S3_BASE_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+
+if DEBUG:  # During local development
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'  # Default local storage
+    STATIC_URL = '/static/'  # Serve locally from the local static directory
+    STATIC_ROOT = BASE_DIR / 'staticfiles'  # Static files will be collected to this local folder
+
+    # Use S3 for media files, even when DEBUG is True
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # Force S3 for media files
+else:  # In production, use S3 storage
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # Use S3 for static files
+    STATIC_URL = f'{AWS_S3_BASE_URL}/static/'  # Serve static files from S3
+
+# Media files (user-uploaded files)
+MEDIA_URL = f'{AWS_S3_BASE_URL}/media/'  # URL for media files on S3
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Keep local media folder for testing
