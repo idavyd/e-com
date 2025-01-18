@@ -33,7 +33,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     stock = models.IntegerField(default=0)
-    in_stock = models.CharField(choices=STOCK_CHOICES)
+    in_stock = models.CharField(choices=STOCK_CHOICES, max_length=15)
 
     def __str__(self):
         return f'{self.name}'
@@ -60,7 +60,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='product_images/')
+    image = models.ImageField(upload_to='media/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
