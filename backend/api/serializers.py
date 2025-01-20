@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from store.models import *
 
 
@@ -14,7 +13,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         if obj.image:
             return request.build_absolute_uri(obj.image.url)  # Build full URL
-        return None
+        return request.build_absolute_uri('/static/images/default_product.jpg')
 
 
 class ProductSerializer(serializers.ModelSerializer):
