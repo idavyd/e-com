@@ -3,18 +3,6 @@ from django.contrib.auth.models import User
 from store.models import *
 
 
-class GeneralSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username')
-
-
-class CreateImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductImage
-        fields = ('product', 'image')
-
-
 class ProductImageSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
 

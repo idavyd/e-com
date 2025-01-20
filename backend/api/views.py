@@ -5,11 +5,6 @@ from django.contrib.auth.models import User
 from store.models import Category, Product
 
 
-class ListUsersView(generics.ListAPIView):
-    serializer_class = GeneralSerializer
-    queryset = User.objects.all()
-
-
 class ListProductView(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
