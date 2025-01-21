@@ -17,10 +17,21 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    images = ProductImageSerializer(many=True, read_only=True)
+    images = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
         fields = ('id', 'name', 'category', 'short_description', 'price', 'stock', 'images')
+
+    def get_images(self, obj):
+        # Check if the product has images
+        if obj.images.exists():
+            return ProductImageSerializer(obj.images.all(), many=True, context=self.context).data
+        else:
+            # Return a default image message or URL if no images are present
+            return [{
+                "image_url": self.context.get('request').build_absolute_uri('/static/product-default-image.jpg')
+            }]
 
 
 class CategorySerializer(serializers.ModelSerializer):
