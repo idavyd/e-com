@@ -1,5 +1,5 @@
 from rest_framework import generics
-from rest_framework.exceptions import NotFound, ValidationError
+from django.shortcuts import get_object_or_404
 from api.serializers import *
 from store.models import Category, Product
 
@@ -9,14 +9,6 @@ class ListProductView(generics.ListAPIView):
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
-
         if pk:
-            try:
-                pk = int(pk)
-            except ValueError:
-                raise ValidationError('Invalid id format')
-            queryset = Product.objects.filter(pk=pk)
-            if not queryset.exists():
-                raise NotFound("Product not found.")
-            return queryset
+            return get_object_or_404(Product,pk=pk)
         return Product.objects.all()
