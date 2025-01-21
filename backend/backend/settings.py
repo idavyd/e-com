@@ -92,7 +92,7 @@ AWS_DEFAULT_ACL = None
 
 #  - STATIC SETTINGS
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [BASE_DIR / "static", ]
+STATICFILES_DIRS = [BASE_DIR / "static", ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 #  - MEDIA SETTINGS
