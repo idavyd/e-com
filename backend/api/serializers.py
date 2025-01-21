@@ -33,6 +33,11 @@ class ProductSerializer(serializers.ModelSerializer):
                 "image_url": self.context.get('request').build_absolute_uri('/static/product-default-image.jpg')
             }]
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['id'] = str(instance.pk)
+        representation['category'] = str(instance.pk)
+        return representation
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
