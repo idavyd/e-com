@@ -36,6 +36,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['id'] = str(instance.pk)
+        representation['category'] = str(instance.pk)
         return representation
 
 class CategorySerializer(serializers.ModelSerializer):
