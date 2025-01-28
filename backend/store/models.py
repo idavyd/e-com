@@ -1,4 +1,5 @@
 from django.db import models
+from uuid import uuid4
 
 
 class Category(models.Model):
@@ -6,6 +7,7 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    category_icon = models.ImageField(upload_to='media/category_icons', null=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE,
                                related_name='subcategories',
                                null=True, blank=True)
@@ -34,6 +36,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     stock = models.IntegerField(default=0)
     in_stock = models.CharField(choices=STOCK_CHOICES, max_length=15)
+    product_id = models.UUIDField(default=uuid4(), editable=False, null=True)
 
     def __str__(self):
         return f'{self.name}'
