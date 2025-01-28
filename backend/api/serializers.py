@@ -21,7 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'name', 'category', 'short_description', 'price', 'stock', 'images')
+        fields = ('id', 'name', 'category', 'short_description', 'price', 'stock', 'images', 'product_id')
 
     def get_images(self, obj):
         # Check if the product has images
@@ -39,7 +39,13 @@ class ProductSerializer(serializers.ModelSerializer):
         representation['category'] = str(instance.pk)
         return representation
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ('id', 'name')
+        model = Category
+        fields = ('id', 'name', 'slug', 'parent', 'category_icon')
+
+    def get_images(self, obj):
+        if obj.category_icon:
+            return obj.category_icon.url
+        return '/static/category-default-image.png'

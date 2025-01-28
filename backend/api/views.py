@@ -20,3 +20,21 @@ class ListProductView(generics.ListAPIView):
                 raise NotFound("Product not found.")
             return queryset
         return Product.objects.all()
+
+
+class ListCategoryView(generics.ListAPIView):
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+
+        if pk:
+            try:
+                pk = int(pk)
+            except ValueError:
+                raise ValidationError('Invalid id format')
+            queryset = Category.objects.filter(pk=pk)
+            if not queryset.exists():
+                raise NotFound("Product not found.")
+            return queryset
+        return Category.objects.all()
