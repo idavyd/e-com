@@ -35,6 +35,6 @@ class ListCategoryView(generics.ListAPIView):
                 raise ValidationError('Invalid id format')
             queryset = Category.objects.filter(pk=pk)
             if not queryset.exists():
-                raise NotFound("Product not found.")
+                raise NotFound("Category not found.")
             return queryset
         return Category.objects.all()

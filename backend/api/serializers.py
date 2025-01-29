@@ -40,11 +40,19 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    category_icon = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
         fields = ('id', 'name', 'slug', 'parent', 'category_icon')
 
-    def get_images(self, obj):
+    def get_category_icon(self, obj):
+        # Get the request object to build the absolute URL
+        request = self.context.get('request')
+
+        # Check if category_icon exists
         if obj.category_icon:
-            return obj.category_icon.url
-        return '/static/category-default-image.png'
+            return request.build_absolute_uri(obj.category_icon.url)
+
+        # Return full URL of the default image if category_icon doesn't exist
+        return request.build_absolute_uri('/static/category-default-image.png')

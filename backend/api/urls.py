@@ -4,9 +4,9 @@ from api.views import *
 
 urlpatterns = [
     path('products', ListProductView.as_view(), name='Products'),
-    path('products/<int:pk>', ListProductView.as_view(), name='getProductById'),
+    path('products/<uuid:pk>', ListProductView.as_view(), name='getProductById'),
     path('categories', ListCategoryView.as_view(), name='Categories'),
-    path('products/<int:pk>', ListProductView.as_view(), name='getCategoryById'),
+    path('categories/<uuid:pk>', ListCategoryView.as_view(), name='getCategoryById'),
 
 ]
 
