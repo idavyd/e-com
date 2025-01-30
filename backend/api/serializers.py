@@ -21,7 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'name', 'category_id', 'short_description', 'price', 'stock', 'images')
+        fields = ('id', 'name', 'category', 'short_description', 'price', 'stock', 'images')
 
     def get_images(self, obj):
         # Check if the product has images
@@ -32,11 +32,6 @@ class ProductSerializer(serializers.ModelSerializer):
             return [{
                 "image_url": self.context.get('request').build_absolute_uri('/static/product-default-image.jpg')
             }]
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['category'] = str(instance.pk)
-        return representation
 
 
 class CategorySerializer(serializers.ModelSerializer):
