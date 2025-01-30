@@ -21,7 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'name', 'category', 'short_description', 'price', 'stock', 'images')
+        fields = ('id', 'name', 'category_id', 'short_description', 'price', 'stock', 'images')
 
     def get_images(self, obj):
         # Check if the product has images
