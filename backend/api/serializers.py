@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from store.models import *
+from api.mixins import CamelCaseMixin
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -16,7 +17,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
         return request.build_absolute_uri('/static/images/default_product.jpg')
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(CamelCaseMixin, serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     class Meta:
@@ -34,7 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
             }]
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class CategorySerializer(CamelCaseMixin, serializers.ModelSerializer):
     category_icon = serializers.SerializerMethodField()
 
     class Meta:
